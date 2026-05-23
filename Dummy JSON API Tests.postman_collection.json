@@ -1,0 +1,1501 @@
+{
+  "info": {
+    "_postman_id": "e7f20ff0-acce-4bcb-948d-1a578e9a1518",
+    "name": "Dummy JSON API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53907450"
+  },
+  "item": [
+    {
+      "name": "Auth module",
+      "item": [
+        {
+          "name": "login with Username",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();    \r",
+                  "pm.test(\"Response contains access_token\", function () {\r",
+                  "pm.expect(responseJson.access_token).to.not.be.null;\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"emilys\",\r\n  \"password\": \"emilyspass\",\r\n  \"expiresInMins\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/auth/login",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "send Refresh token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"emilys\",\r\n  \"password\": \"emilyspass\",\r\n  \"expiresInMins\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/auth/refresh",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Wrong Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Validates Status code 400\",function(){\r",
+                  "    pm.response.to.have.status(400) \r",
+                  "})\r",
+                  "const responsejson = pm.response.json();\r",
+                  "pm.test(\"validtes response body message get or not\", function(){\r",
+                  "    pm.expect(responsejson.message).to.eql(\"Invalid credentials\") \r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"emilys\",\r\n  \"password\": \"12341!@#$\",\r\n  \"expiresInMins\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/auth/login",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Empty Filed",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "const responsejson = pm.response.json();\r",
+                  "pm.test(\"validtes response body message is 'Username and password required'\", function(){\r",
+                  "    pm.expect(responsejson.message).to.eql(\"Username and password required\") \r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_Url}}/auth/login",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "without username",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "const responsejson = pm.response.json();\r",
+                  "pm.test(\"validtes response body message is username is Required \", function(){\r",
+                  "    pm.expect(responsejson.message).to.eql(\"Username and password required\") \r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"\",\r\n  \"password\": \"emilyspass\",\r\n  \"expiresInMins\": 30\r\n}"
+            },
+            "url": {
+              "raw": "{{base_Url}}/auth/login",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Logged in user profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/auth/me",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get without Access token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/auth/me",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Access Token",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "accesstoken_xzy",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/auth/me",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get all users with pagination",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();\r",
+                  "pm.test(\"Response body should total is 208 \",function(){\r",
+                  "    pm.expect(responseJson.total).to.equal(208);\r",
+                  "})\r",
+                  "pm.test(\"Response body should skip is 0 \",function(){\r",
+                  "    pm.expect(responseJson.skip).to.equal(0);\r",
+                  "})\r",
+                  "pm.test(\"Response body should limit is 30 \",function(){\r",
+                  "    pm.expect(responseJson.limit).to.equal(30);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/users",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Five User in array",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();\r",
+                  "pm.test(\"Response body should total is 208 \",function(){\r",
+                  "    pm.expect(responseJson.total).to.equal(208);\r",
+                  "})\r",
+                  "pm.test(\"Response body should skip is 0 \",function(){\r",
+                  "    pm.expect(responseJson.skip).to.equal(0);\r",
+                  "})\r",
+                  "pm.test(\"Response body should limit is 5 \",function(){\r",
+                  "    pm.expect(responseJson.limit).to.equal(5);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/users?limit=5&skip=0",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                },
+                {
+                  "key": "skip",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Skip 10 users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();\r",
+                  "pm.test(\"Response body should total is 208 \",function(){\r",
+                  "    pm.expect(responseJson.total).to.equal(208);\r",
+                  "})\r",
+                  "pm.test(\"Response body should skip is 10\",function(){\r",
+                  "    pm.expect(responseJson.skip).to.equal(10);\r",
+                  "})\r",
+                  "pm.test(\"Response body should limit is 5 \",function(){\r",
+                  "    pm.expect(responseJson.limit).to.equal(5);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/users?limit=5&skip=10",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                },
+                {
+                  "key": "skip",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get single User By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/users/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Non Exist Id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "var responseJson = pm.response.json();  \r",
+                  "pm.test(\"Response message is 'User with id '9999' not found'\", function () {\r",
+                  "    pm.expect(responseJson.message).to.eql(\"User with id '9999' not found\");\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/users/9999",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search by Name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/users/search?q=Emily",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Emily"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "No user found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "var responseJson = pm.response.json();  \r",
+                  "pm.test(\"Total users is 0\", function () {\r",
+                  "    pm.expect(responseJson.users).to.eql([]);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/users/search?q=xyznotexist",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "xyznotexist"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add New Users",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"Add_New\",209);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": {{Add_New}},\r\n    \"firstName\": \"Rushi\",\r\n    \"lastName\": \"Patil\",\r\n    \"maidenName\": \"gaurav\",\r\n    \"age\": 45,\r\n    \"gender\": \"male\",\r\n    \"email\": \"emily.johnson@x.dummyjson.com\",\r\n    \"phone\": \"+81 965-431-3024\",\r\n    \"username\": \"emilys\",\r\n    \"password\": \"emilyspass\",\r\n    \"birthDate\": \"1996-5-30\",\r\n    \"image\": \"https://dummyjson.com/icon/emilys/128\",\r\n    \"bloodGroup\": \"O-\",\r\n    \"height\": 193.24,\r\n    \"weight\": 63.16,\r\n    \"eyeColor\": \"Green\",\r\n    \"hair\": {\r\n        \"color\": \"Brown\",\r\n        \"type\": \"Curly\"\r\n    },\r\n    \"ip\": \"42.48.100.32\",\r\n    \"address\": {\r\n        \"address\": \"626 Main Street\",\r\n        \"city\": \"Phoenix\",\r\n        \"state\": \"Mississippi\",\r\n        \"stateCode\": \"MS\",\r\n        \"postalCode\": \"29112\",\r\n        \"coordinates\": {\r\n            \"lat\": -77.16213,\r\n            \"lng\": -92.084824\r\n        },\r\n        \"country\": \"United States\"\r\n    },\r\n    \"macAddress\": \"47:fa:41:18:ec:eb\",\r\n    \"university\": \"University of Wisconsin--Madison\",\r\n    \"bank\": {\r\n        \"cardExpire\": \"05/28\",\r\n        \"cardNumber\": \"3693233511855044\",\r\n        \"cardType\": \"Diners Club International\",\r\n        \"currency\": \"GBP\",\r\n        \"iban\": \"GB74MH2UZLR9TRPHYNU8F8\"\r\n    },\r\n    \"company\": {\r\n        \"department\": \"Engineering\",\r\n        \"name\": \"Dooley, Kozey and Cronin\",\r\n        \"title\": \"Sales Manager\",\r\n        \"address\": {\r\n            \"address\": \"263 Tenth Street\",\r\n            \"city\": \"San Francisco\",\r\n            \"state\": \"Wisconsin\",\r\n            \"stateCode\": \"WI\",\r\n            \"postalCode\": \"37657\",\r\n            \"coordinates\": {\r\n                \"lat\": 71.814525,\r\n                \"lng\": -161.150263\r\n            },\r\n            \"country\": \"United States\"\r\n        }\r\n    },\r\n    \"ein\": \"977-175\",\r\n    \"ssn\": \"900-590-289\",\r\n    \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36\",\r\n    \"crypto\": {\r\n        \"coin\": \"Bitcoin\",\r\n        \"wallet\": \"0xb9fc2fe63b2a6c003f1c324c3bfa53259162181a\",\r\n        \"network\": \"Ethereum (ERC20)\"\r\n    },\r\n    \"role\": \"admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/users/add",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update user by ID",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"first_name\", \"Akshay\" );"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();\r",
+                  "pm.test(\"Response body contains correct user details\", function () {\r",
+                  "    pm.expect(responseJson.id).to.eql(1);\r",
+                  "})\r",
+                  "pm.test(\"Response body contains correct FristName\", function () {\r",
+                  "    pm.expect(responseJson.firstName).to.eql(\"Akshay \");\r",
+                  "})\r",
+                  "pm.test(\"Response body contains correct user lastName\", function () {\r",
+                  "    pm.expect(responseJson.lastName).to.eql(\"Bhadange\");\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": 1,\r\n    \"firstName\": \"{{first_name}} \",\r\n    \"lastName\": \"Bhadange\",\r\n    \"maidenName\": \"Santosh\",\r\n    \"age\": 25,\r\n    \"gender\": \"male\",\r\n    \"email\": \"akshaybhadange72@x.dummyjson.com\",\r\n    \"phone\": \"+81 9359966001\",\r\n    \"username\": \"emilys\",\r\n    \"password\": \"PassWord@123\",\r\n    \"birthDate\": \"1996-5-30\",\r\n    \"image\": \"https://dummyjson.com/icon/emilys/128\",\r\n    \"bloodGroup\": \"O-\",\r\n    \"height\": 193.24,\r\n    \"weight\": 63.16,\r\n    \"eyeColor\": \"Green\",\r\n    \"hair\": {\r\n        \"color\": \"Brown\",\r\n        \"type\": \"Curly\"\r\n    },\r\n    \"ip\": \"42.48.100.32\",\r\n    \"address\": {\r\n        \"address\": \"626 Main Street\",\r\n        \"city\": \"Phoenix\",\r\n        \"state\": \"Mississippi\",\r\n        \"stateCode\": \"MS\",\r\n        \"postalCode\": \"29112\",\r\n        \"coordinates\": {\r\n            \"lat\": -77.16213,\r\n            \"lng\": -92.084824\r\n        },\r\n        \"country\": \"United States\"\r\n    },\r\n    \"macAddress\": \"47:fa:41:18:ec:eb\",\r\n    \"university\": \"University of Wisconsin--Madison\",\r\n    \"bank\": {\r\n        \"cardExpire\": \"05/28\",\r\n        \"cardNumber\": \"3693233511855044\",\r\n        \"cardType\": \"Diners Club International\",\r\n        \"currency\": \"GBP\",\r\n        \"iban\": \"GB74MH2UZLR9TRPHYNU8F8\"\r\n    },\r\n    \"company\": {\r\n        \"department\": \"Engineering\",\r\n        \"name\": \"Dooley, Kozey and Cronin\",\r\n        \"title\": \"Sales Manager\",\r\n        \"address\": {\r\n            \"address\": \"263 Tenth Street\",\r\n            \"city\": \"San Francisco\",\r\n            \"state\": \"Wisconsin\",\r\n            \"stateCode\": \"WI\",\r\n            \"postalCode\": \"37657\",\r\n            \"coordinates\": {\r\n                \"lat\": 71.814525,\r\n                \"lng\": -161.150263\r\n            },\r\n            \"country\": \"United States\"\r\n        }\r\n    },\r\n    \"ein\": \"977-175\",\r\n    \"ssn\": \"900-590-289\",\r\n    \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36\",\r\n    \"crypto\": {\r\n        \"coin\": \"Bitcoin\",\r\n        \"wallet\": \"0xb9fc2fe63b2a6c003f1c324c3bfa53259162181a\",\r\n        \"network\": \"Ethereum (ERC20)\"\r\n    },\r\n    \"role\": \"admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/users/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete user by ID",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/users/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Delete User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();    \r",
+                  "pm.test(\"Response Delete ID Not Displayed id is 1\",function(){\r",
+                  "pm.expect(responseJson.id).to.eql(1)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "packages": {},
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_Url}}/users/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Get all products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Exact 10 projuct",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();    \r",
+                  "pm.test(\"Response body total is 194 \",function(){\r",
+                  "    pm.expect(responseJson.total).to.equal(194);\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Response body skip is 0\",function(){\r",
+                  "    pm.expect(responseJson.skip).to.equal(0);\r",
+                  "})\r",
+                  "pm.test(\"Response body limit is 10 \",function(){\r",
+                  "    pm.expect(responseJson.limit).to.equal(10);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products?limit=10&skip=0",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "skip",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "skip beyond",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products?skip=9999",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "9999"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get product by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();    \r",
+                  "pm.test(\"Product ID is 1\", function () {\r",
+                  "    pm.expect(responseJson.id).to.equal(1); \r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Non exist id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "const responsejson = pm.response.json();\r",
+                  "pm.test(\"Response body contains the correct message\", function () {\r",
+                  "    pm.expect(responsejson.message).to.eql(\"Product with id '9999' not found\");\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products/9999",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search products by name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products/search?q=phone",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "phone"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all product categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products/categories",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "NO match",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products/search?q=xyzqw",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "xyzqw"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add a new product",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var randomproducts =_.random(1000,5000);\r",
+                  "pm.collectionVariables.set(\"price\",randomproducts);\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();    \r",
+                  "pm.test(\"Response body contains correct data\", function () {\r",
+                  "    pm.expect(responseJson.id).to.eql(195); \r",
+                  "})\r",
+                  "pm.test(\"Response body contains correct price \", function () {\r",
+                  "    pm.expect(responseJson.price).to.eql(pm.collectionVariables.get(\"price\")); \r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":195,\"title\":\"Test Product\",\"price\":\r\n{{price}},\"stock\":50,\"category\":\"smartphones\"}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/products/add",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update product by ID",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"products\",12.3)\r",
+                  "pm.collectionVariables.set(\"productid\",1)  "
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": {{productid}},\r\n  \"title\": \"Test Product\",\r\n  \"price\": {{price}},\r\n  \"stock\": 50,\r\n  \"category\": \"smartphones\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/products/{{productid}}",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products",
+                "{{productid}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/products/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "item": [
+        {
+          "name": "Get all carts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/carts",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get cart by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "const responseJson = pm.response.json();    \r",
+                  "pm.test(\"Cart ID is 1\", function () {\r",
+                  "    pm.expect(responseJson.id).to.eql(1);\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/carts/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "carts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all carts of a specific user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/carts/user/5",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "carts",
+                "user",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get 9999",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/cards/9999",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "cards",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add a new cart with products",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"Add_carts\",25);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"userId\":{{Add_carts}},\"products\":[{\"id\":1,\"quantity\":2},{\"id\":3,\"quantity\":1}]}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/carts/add",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "carts",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Missing USer ID",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"products\":[{\"id\":1,\"quantity\":2},{\"id\":3,\"quantity\":1}]}\r\n"
+            },
+            "url": {
+              "raw": "{{base_Url}}/carts/add",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "carts",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update cart items",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"products\":[{\"id\":5,\"quantity\":3}],\"merge\":true}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_Url}}/carts/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "carts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete cart",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_Url}}/carts/1",
+              "host": [
+                "{{base_Url}}"
+              ],
+              "path": [
+                "carts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "Add_New",
+      "value": ""
+    },
+    {
+      "key": "product_id",
+      "value": ""
+    },
+    {
+      "key": "Add_carts",
+      "value": ""
+    },
+    {
+      "key": "first_name",
+      "value": ""
+    },
+    {
+      "key": "price",
+      "value": ""
+    },
+    {
+      "key": "products",
+      "value": ""
+    },
+    {
+      "key": "productid",
+      "value": ""
+    }
+  ]
+}
